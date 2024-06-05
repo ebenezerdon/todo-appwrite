@@ -29,14 +29,18 @@ const collections: CollectionsConfig[] = [
   },
 ]
 
-collections.forEach((col) => {
-  db[col.name] = {
-    get: (id: string) => databases.getDocument(col.dbId, col.id, id),
-    list: () => databases.listDocuments(col.dbId, col.id),
+const createCollectionMethods = (dbId: string, colId: string) => {
+  return {
+    get: (id: string) => databases.getDocument(dbId, colId, id),
+    list: () => databases.listDocuments(dbId, colId),
     create: (payload: any, permissions: string[], id: string = ID.unique()) =>
-      databases.createDocument(col.dbId, col.id, payload, permissions, [id]),
+      databases.createDocument(dbId, colId, payload, permissions, [id]),
     update: (id: string, payload: any, permissions: string[]) =>
-      databases.updateDocument(col.dbId, col.id, id, payload, permissions),
-    delete: (id: string) => databases.deleteDocument(col.dbId, col.id, id) as unknown as Promise<void>,
+      databases.updateDocument(dbId, colId, id, payload, permissions),
+    delete: (id: string) => databases.deleteDocument(dbId, colId, id) as unknown as Promise<void>,
   }
+}
+
+collections.forEach((col) => {
+  db[col.name] = createCollectionMethods(col.dbId, col.id)
 })
