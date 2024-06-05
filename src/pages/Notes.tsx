@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { type Models } from 'appwrite'
-import { databases } from '../appwrite/config'
+import { db } from '../appwrite/databases'
 
 const Notes = () => {
   interface NoteType extends Models.Document {
@@ -12,10 +12,7 @@ const Notes = () => {
 
   useEffect(() => {
     const init = async () => {
-      const response = await databases.listDocuments(
-        import.meta.env.VITE_DATABASE_ID,
-        import.meta.env.VITE_NOTES_COLLECTION_ID,
-      )
+      const response = await db.notes.list()
 
       setNotes(response.documents as NoteType[])
     }
