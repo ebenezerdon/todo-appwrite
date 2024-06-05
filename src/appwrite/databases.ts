@@ -15,7 +15,7 @@ export const db: {
   [key: string]: {
     get: (id: string) => Promise<DatabaseDocument>
     list: () => Promise<Models.DocumentList<DatabaseDocument>>
-    create: (payload: any, permissions: string[], id?: string) => Promise<DatabaseDocument>
+    create: (payload: any, permissions?: string[], id?: string) => Promise<DatabaseDocument>
     update: (id: string, payload: any, permissions: string[]) => Promise<DatabaseDocument>
     delete: (id: string) => Promise<void>
   }
@@ -33,9 +33,9 @@ const createCollectionMethods = (dbId: string, colId: string) => {
   return {
     get: (id: string) => databases.getDocument(dbId, colId, id),
     list: () => databases.listDocuments(dbId, colId),
-    create: (payload: any, permissions: string[], id: string = ID.unique()) =>
-      databases.createDocument(dbId, colId, payload, permissions, [id]),
-    update: (id: string, payload: any, permissions: string[]) =>
+    create: (payload: any, permissions?: string[], id: string = ID.unique()) =>
+      databases.createDocument(dbId, colId, id, payload, permissions),
+    update: (id: string, payload: any, permissions?: string[]) =>
       databases.updateDocument(dbId, colId, id, payload, permissions),
     delete: (id: string) => databases.deleteDocument(dbId, colId, id) as unknown as Promise<void>,
   }

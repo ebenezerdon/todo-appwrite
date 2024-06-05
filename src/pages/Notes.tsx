@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { type Models } from 'appwrite'
 import { db } from '../appwrite/databases'
+import NoteForm from '../components/NoteForm'
+
+export interface NoteType extends Models.Document {
+  body: string
+  completed: boolean
+}
 
 const Notes = () => {
-  interface NoteType extends Models.Document {
-    body: string
-    completed: boolean
-  }
-
   const [notes, setNotes] = useState<NoteType[]>([])
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const Notes = () => {
   return (
     <div>
       <h1>Notes</h1>
+      <NoteForm setNotes={setNotes} />
       <ul>
         {notes.map((note) => (
           <li key={note.$id}>
