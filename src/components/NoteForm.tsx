@@ -18,6 +18,7 @@ const NoteForm = ({ setNotes }: NoteFormProps) => {
       const response = await db.notes.create(payload)
 
       setNotes((prevNotes: NoteType[]) => [response, ...prevNotes])
+      setNoteBody('')
     } catch (error) {
       console.error(error)
     }
@@ -25,7 +26,14 @@ const NoteForm = ({ setNotes }: NoteFormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" name="body" placeholder="What doest thou?" onChange={(e) => setNoteBody(e.target.value)} />
+      <input
+        type="text"
+        name="body"
+        placeholder="What doest thou?"
+        value={noteBody}
+        onChange={(e) => setNoteBody(e.target.value)}
+        required
+      />
       <button type="submit">Add</button>
     </form>
   )

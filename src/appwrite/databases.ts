@@ -14,7 +14,7 @@ interface CollectionsConfig {
 export const db: {
   [key: string]: {
     get: (id: string) => Promise<DatabaseDocument>
-    list: () => Promise<Models.DocumentList<DatabaseDocument>>
+    list: (queries: any) => Promise<Models.DocumentList<DatabaseDocument>>
     create: (payload: any, permissions?: string[], id?: string) => Promise<DatabaseDocument>
     update: (id: string, payload: any, permissions: string[]) => Promise<DatabaseDocument>
     delete: (id: string) => Promise<void>
@@ -32,7 +32,7 @@ const collections: CollectionsConfig[] = [
 const createCollectionMethods = (dbId: string, colId: string) => {
   return {
     get: (id: string) => databases.getDocument(dbId, colId, id),
-    list: () => databases.listDocuments(dbId, colId),
+    list: (queries: any) => databases.listDocuments(dbId, colId, queries),
     create: (payload: any, permissions?: string[], id: string = ID.unique()) =>
       databases.createDocument(dbId, colId, id, payload, permissions),
     update: (id: string, payload: any, permissions?: string[]) =>

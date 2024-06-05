@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { type Models } from 'appwrite'
 import { db } from '../appwrite/databases'
 import NoteForm from '../components/NoteForm'
+import { Query } from 'appwrite'
 
 export interface NoteType extends Models.Document {
   body: string
@@ -13,7 +14,7 @@ const Notes = () => {
 
   useEffect(() => {
     const init = async () => {
-      const response = await db.notes.list()
+      const response = await db.notes.list([Query.orderDesc('$createdAt')])
 
       setNotes(response.documents as NoteType[])
     }
