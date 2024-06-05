@@ -16,7 +16,7 @@ export const db: {
     get: (id: string) => Promise<DatabaseDocument>
     list: (queries: any) => Promise<Models.DocumentList<DatabaseDocument>>
     create: (payload: any, permissions?: string[], id?: string) => Promise<DatabaseDocument>
-    update: (id: string, payload: any, permissions: string[]) => Promise<DatabaseDocument>
+    update: (id: string, payload: any, permissions?: string[]) => Promise<DatabaseDocument>
     delete: (id: string) => Promise<void>
   }
 } = {}

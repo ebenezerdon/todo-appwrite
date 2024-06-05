@@ -3,6 +3,7 @@ import { type Models } from 'appwrite'
 import { db } from '../appwrite/databases'
 import NoteForm from '../components/NoteForm'
 import { Query } from 'appwrite'
+import Note from '../components/Note'
 
 export interface NoteType extends Models.Document {
   body: string
@@ -26,13 +27,12 @@ const Notes = () => {
     <div>
       <h1>Notes</h1>
       <NoteForm setNotes={setNotes} />
-      <ul>
+
+      <div>
         {notes.map((note) => (
-          <li key={note.$id}>
-            {note.body} - {note.completed ? 'Completed' : 'Not completed'}
-          </li>
+          <Note key={note.$id} noteData={note} setNotes={setNotes} />
         ))}
-      </ul>
+      </div>
     </div>
   )
 }
